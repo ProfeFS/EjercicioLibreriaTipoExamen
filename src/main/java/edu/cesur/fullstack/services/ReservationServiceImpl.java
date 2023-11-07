@@ -32,15 +32,14 @@ public class ReservationServiceImpl implements ReservationService {
 		BookDTO book = bookService.getBook(bookId);
 
 		if (book != null) {
-			if (!book.getReservado()) {
+			if (book.getReservado()) {
+				throw new ReservationConflictException("El libro con id: " + bookId + " ya se encuentra reservado");
+			} else {
 				book.setReservado(true);
 				ReservationDTO reserva = new ReservationDTO(cont, bookId, userId, LocalDate.now(), null);
 				reservas.add(reserva);
 				cont++;
-			} else {
-				throw new ReservationConflictException("El libro con id: " + bookId + " ya se encuentra reservado");
 			}
-
 		} else {
 			throw new BookNotFoundException("No extieste el libro con id: " + bookId);
 		}
@@ -51,7 +50,7 @@ public class ReservationServiceImpl implements ReservationService {
 		for (ReservationDTO re : reservas) {
 
 			if (re.getLibroId() == bookId && re.getUsuarioId() == userId) {
-				if (re.getReturnDate() == null) {
+				if (re.getReturnDate() != null) {
 					throw new ReservationConflictException(
 							"la persona con id: " + userId + " ya ha devuelto el libro con id" + bookId);
 				} else {
@@ -91,6 +90,24 @@ public class ReservationServiceImpl implements ReservationService {
 	public ArrayList<ReservationDTO> getAllReservations() {
 
 		return reservas;
+	}
+
+	@Override
+	public ArrayList<ReservationDTO> getAllReservations(Integer userId) {
+		ArrayList<ReservationDTO> reservations = new ArrayList<>();
+
+		for (ReservationDTO re : reservas) {
+			if (re.getUsuarioId() == userId) {
+				reservations.add(re);
+			}
+		}
+
+		if (reservations.isEmpty()) {
+			throw new ReservationConflictException(
+					"La persona con el user id:" + userId + " nunca ha reservado un libro ");
+		}
+
+		return reservations;
 	}
 
 }

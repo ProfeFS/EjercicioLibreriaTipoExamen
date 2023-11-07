@@ -14,7 +14,7 @@ import lombok.NonNull;
 @AllArgsConstructor
 public class BookDTO {
 	
-	@NonNull
+	@NotNull
     private Integer id;
 	
     private String titulo;

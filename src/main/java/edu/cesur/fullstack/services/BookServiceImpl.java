@@ -1,14 +1,11 @@
 package edu.cesur.fullstack.services;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import edu.cesur.fullstack.model.BookDTO;
-import edu.cesur.fullstack.services.exceptions.BookNotFoundException;
-import edu.cesur.fullstack.validators.BookCodeValidator;
+import edu.cesur.fullstack.exceptions.BookNotFoundException;
 
 @Service
 public class BookServiceImpl implements BookService {

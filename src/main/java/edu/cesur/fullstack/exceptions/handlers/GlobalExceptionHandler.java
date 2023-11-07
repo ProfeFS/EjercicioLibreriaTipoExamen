@@ -8,10 +8,9 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import edu.cesur.fullstack.exceptions.ReservationConflictException;
-import edu.cesur.fullstack.services.exceptions.BookNotFoundException;
+import edu.cesur.fullstack.exceptions.BookNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
