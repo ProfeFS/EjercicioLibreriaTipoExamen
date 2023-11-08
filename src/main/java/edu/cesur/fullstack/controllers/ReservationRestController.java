@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import edu.cesur.fullstack.services.ReservationService;
 
 @RestController
@@ -23,8 +25,16 @@ public class ReservationRestController {
 	@PostMapping("/{bookId}/{userId}")
 	public ResponseEntity<?> reserveBook(@PathVariable Integer bookId, @PathVariable Integer userId){
 		
-		reservationService.reserveBook(bookId, userId);			
-		return ResponseEntity.ok().build();		
+		reservationService.reserveBook(bookId, userId);
+		
+		URI location = ServletUriComponentsBuilder
+				.fromCurrentRequest()
+				.path("/")
+				.buildAndExpand()
+				.toUri();
+		
+		return ResponseEntity.created(location).build();
+			
 	}
 	
 	@GetMapping()
